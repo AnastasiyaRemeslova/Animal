@@ -161,7 +161,7 @@ namespace Animal
             }
         }
 
-        private bool CheckCellForEat(Cell cell)
+        protected override bool CheckCellForEat(Cell cell)
         {
 
             for (int i = 0; i < habitat.Length; i++)
@@ -236,17 +236,11 @@ namespace Animal
             return false;
         }
 
-
-        public override Cell FindCell()
-        {
-            return null;
-        }
-
         private bool CheckCell(Cell cell)
         {
             for (int i = 0; i < habitat.Length; i++)
             {
-                if (cell.Type == habitat[i])
+                if (cell.Type == habitat[i] && (Math.Abs(cell.PositionX - PositionX) + Math.Abs(cell.PositionY - PositionY) <= 2))
                 {
                     return true;
                 }
@@ -271,7 +265,7 @@ namespace Animal
 
         public override void Live()
         {
-            Cell cell = FindCell();
+            Cell cell = FindCellForEat();
             Move(cell);
             Eat();
         }

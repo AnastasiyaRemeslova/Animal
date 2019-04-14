@@ -173,6 +173,7 @@ namespace Animal
 
         public void Draw()
         {
+            Console.WriteLine("Draw");
             Pen myPen = new Pen(SystemColors.Highlight, 2);
             g.DrawRectangle(myPen, new Rectangle(x0 - 5, y0 -5 , Enviroment.M * k + 10, Enviroment.N*k + 10));
             int typeOfCell;
@@ -212,8 +213,14 @@ namespace Animal
             {
                 Fish fish = (Fish)fishes.ElementAt(i);
                 int x = fish.PositionX, y = fish.PositionY;
-                if(fish.IsPredator) myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 50, 50));
-                else myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 0, 50));
+                if (fish.IsPredator)
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 50, 50));
+                }
+                else
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 0, 150));
+                }
                 g.FillEllipse(myBrush, x0 + (x-1) * k + 1, y0 + (y-1) * k +1, k/3, k/3);
             }
 
@@ -227,7 +234,15 @@ namespace Animal
             {
                 Bird bird = (Bird)birds.ElementAt(i);
                 int x = bird.PositionX, y = bird.PositionY;
-                myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(255, 105, 0));
+                if (bird.IsPredator)
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(205, 75, 0));
+                }
+                else
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(255, 105, 0));
+                }
+                
                 g.FillEllipse(myBrush, x0 + (x - 1) * k + k / 3 + 1, y0 + (y - 1) * k + k / 3 + 1, k / 3, k / 3);
 
             }
@@ -242,7 +257,15 @@ namespace Animal
             {
                 Mammal mammal = (Mammal)mammals.ElementAt(i);
                 int x = mammal.PositionX, y = mammal.PositionY;
-                myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(210, 0, 0));
+                if (mammal.IsPredator)
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(190, 0, 0));
+                }
+                else
+                {
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(255, 0, 0));
+                }
+                
                 g.FillEllipse(myBrush, x0 + (x - 1) * k + k / 3 + 1, y0 + (y - 1) * k + 1, k / 3, k / 3);
 
             }

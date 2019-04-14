@@ -189,19 +189,20 @@ namespace Animal
                     fishes.ElementAt(i).Live();
                     form.Draw();
                 }
-                /*
+               
                 for (int i = 0; i < Enviroment.NumberOfBirds; i++)
                 {
                     birds.ElementAt(i).Live();
                     form.Draw();
                 }
-                for (int i = 0; i < Enviroment.NumberOfMammals; i++)
-                {
-                    mammals.ElementAt(i).Live();
-                    form.Draw();
+                
+               for (int i = 0; i < Enviroment.NumberOfMammals; i++)
+               {
+                   mammals.ElementAt(i).Live();
+                   form.Draw();
 
-                }
-                */
+               }
+               
                 if (NumberOfFishes == 0 && NumberOfBirds == 0 && NumberOfMammals == 0)
                 {
                     form.Draw(); return;

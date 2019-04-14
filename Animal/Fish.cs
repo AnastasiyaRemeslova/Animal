@@ -179,58 +179,23 @@ namespace Animal
             return false;
         }
 
-        public override Cell FindCell()
+        protected override bool CheckCellForEat(Cell cell)
         {
-            Cell[] rangeCells = Enviroment.GetRangeCells(RadiusOfSight, PositionY, PositionX);
-            Cell cell = Enviroment.GetCellByCoords(PositionY, PositionX), nextCell;
-            int minX = PositionX, minY = PositionY;
-            for (int i = 0; i < rangeCells.Length; i++)
+            if (cell != null)
             {
-                if (rangeCells[i] != null)
+                if (cell.Type == habitat[0])
                 {
-                    List<Animal> animals = rangeCells[i].Animals;
-                    for (int j = 0; j < animals.Count; j++)
-                    {
-                        Animal animal = animals.ElementAt(j);
-                        if (isPredator)
-                        {
-                            if (animal is Fish && animal.AverageWeight <= AverageWeight && animal != this)
-                            {
-                                if (i < 9)
-                                {
-                                    cell = rangeCells[i];
-                                    return cell;
-                                }
-                                else
-                                {
-                                    int min = RadiusOfSight * 2;
-                                    for (int k = 0; k < 9; k++)
-                                    {
-                                        nextCell = rangeCells[k];
-                                        if ((Math.Abs(rangeCells[i].PositionX - nextCell.PositionX) + Math.Abs(rangeCells[i].PositionY - nextCell.PositionY)) < min)
-                                        {
-                                            min = Math.Abs(rangeCells[i].PositionX - nextCell.PositionX) + Math.Abs(rangeCells[i].PositionY - nextCell.PositionY);
-                                            minX = nextCell.PositionX;
-                                            minY = nextCell.PositionY;
-                                        }
-                                    }
-                                    
-                                }
-                                cell = Enviroment.GetCellByCoords(minY, minX);
-
-                            }
-                        }
-                    }
+                    return true;
                 }
             }
-            return cell;
+            return false;
         }
 
         private bool CheckCell(Cell cell)
         {
             if (cell != null)
             {
-                if (cell.Type == habitat[0])
+                if (cell.Type == habitat[0] && (Math.Abs(cell.PositionX - PositionX) + Math.Abs(cell.PositionY - PositionY)<=2))
                 {
                     return true;
                 }
@@ -255,8 +220,10 @@ namespace Animal
 
         public override void Live()
         {
-            Cell cell = FindCell();
-            Move(cell);
+            bool isMoved = false;
+
+            Cell cell = FindCellForEat();
+            isMoved = Move(cell);
             Eat();
         }
     }
