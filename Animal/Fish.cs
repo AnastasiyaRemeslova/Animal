@@ -12,6 +12,7 @@ namespace Animal
         private bool isPredator;
         private int averageWeight;
         private int[] habitat = { 2 };
+
         private int possibleStepsWithoutFood, currentStepsWithoutFood=0;
         private int requiredPortionOfFood, currentPortionOfFood=0;
         private int radiusOfSight;
