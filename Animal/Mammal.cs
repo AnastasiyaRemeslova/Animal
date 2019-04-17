@@ -263,6 +263,21 @@ namespace Animal
             return false;
         }
 
+        protected override bool CheckAnimalForEat(Animal animal)
+        {
+            for (int i = 0; i < animal.Habitat.Length; i++)
+            {
+                for (int j = 0; j < Habitat.Length; j++)
+                {
+                    if (animal.Habitat[i] == Habitat[j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public override void Live()
         {
             Cell cell = FindCellForEat();

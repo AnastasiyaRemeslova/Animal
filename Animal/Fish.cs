@@ -26,7 +26,7 @@ namespace Animal
 
             RequiredPortionOfFood = AverageWeight / 10;
             PossibleStepsWithoutFood = rand.Next(5, 20);
-            RadiusOfSight = rand.Next(1, 5);
+            RadiusOfSight = rand.Next(2, 5);
         }
 
         public override int PositionX
@@ -179,6 +179,19 @@ namespace Animal
             return false;
         }
 
+        protected override bool CheckAnimalForEat(Animal animal)
+        {
+            for (int i = 0; i < animal.Habitat.Length; i++)
+            {
+                if (animal.Habitat[i] == 2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         protected override bool CheckCellForEat(Cell cell)
         {
             if (cell != null)
@@ -225,6 +238,8 @@ namespace Animal
             Cell cell = FindCellForEat();
             isMoved = Move(cell);
             Eat();
+
+
         }
     }
 }

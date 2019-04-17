@@ -21,6 +21,7 @@ namespace Animal
         //public abstract Cell FindCell();
         public abstract void Live();
         protected abstract bool CheckCellForEat(Cell cell);
+        protected abstract bool CheckAnimalForEat(Animal animal);
 
         public Cell FindCellForEat()
         {
@@ -38,7 +39,7 @@ namespace Animal
                         Animal animal = animals.ElementAt(j);
                         if (IsPredator)
                         {
-                            if (animal.AverageWeight <= AverageWeight && animal != this)
+                            if (CheckAnimalForEat(animal) && animal.AverageWeight <= AverageWeight && animal != this)
                             {
                                 if (i < 9)
                                 {
@@ -77,7 +78,7 @@ namespace Animal
                         }
                         else
                         {
-                            if (animal.AverageWeight > AverageWeight && animal != this)
+                            if (CheckAnimalForEat(animal) && animal.AverageWeight > AverageWeight && animal != this)
                             {
                                 int max = 0;
                                 for (int k = 0; k < 9; k++)
