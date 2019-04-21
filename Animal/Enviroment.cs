@@ -179,30 +179,66 @@ namespace Animal
                 mammals.Remove(animal);
         }
 
+        public static void AddAnimal(Animal animal)
+        {
+            if (animal is Fish)
+            {
+                fishes.Add(animal);
+                Console.WriteLine("Fish: " + animal.PositionX + " " + animal.PositionY + " " + animal.IsPredator + " " + animal.AverageWeight);
+            }
+
+            if (animal is Bird)
+            {
+                birds.Add(animal);
+                Console.WriteLine("Bird: " + animal.PositionX + " " + animal.PositionY + " " + animal.IsPredator + " " + animal.AverageWeight);
+            }
+
+            if (animal is Mammal)
+            {
+                mammals.Add(animal);
+                Console.WriteLine("Mammal: " + animal.PositionX + " " + animal.PositionY + " " + animal.IsPredator + " " + animal.AverageWeight);
+            }
+            }
+
         public void Process(Form1 form)
         {
-            while(true)
+            Random rand = new Random();
+            int currentNOfFishes = Enviroment.NumberOfFishes, currentNOfBirds = Enviroment.NumberOfBirds, currentNOfMammals = Enviroment.NumberOfMammals;
+            while (true)
             {
                 Thread.Sleep(200);
-                for (int i = 0; i < Enviroment.NumberOfFishes; i++)
+                
+                for (int i = 0; i < currentNOfFishes && i < Enviroment.NumberOfFishes; i++)
                 {
                     fishes.ElementAt(i).Live();
                     form.Draw();
                 }
                
-                for (int i = 0; i < Enviroment.NumberOfBirds; i++)
+                for (int i = 0; i < currentNOfBirds && i < Enviroment.NumberOfBirds; i++)
                 {
                     birds.ElementAt(i).Live();
                     form.Draw();
                 }
                 
-               for (int i = 0; i < Enviroment.NumberOfMammals; i++)
+               for (int i = 0; i < currentNOfMammals && i < Enviroment.NumberOfMammals; i++)
                {
                    mammals.ElementAt(i).Live();
                    form.Draw();
 
                }
-               
+
+                for (int i = 1; i <= n; i++)
+                {
+                    for (int j = 1; j <= m; j++)
+                    {
+                        cell[i, j].AddFood(rand.Next(0, 50));
+                    }
+                }
+
+                currentNOfFishes = Enviroment.NumberOfFishes;
+                currentNOfBirds = Enviroment.NumberOfBirds;
+                currentNOfMammals = Enviroment.NumberOfMammals;
+
                 if (NumberOfFishes == 0 && NumberOfBirds == 0 && NumberOfMammals == 0)
                 {
                     form.Draw(); return;
@@ -293,7 +329,7 @@ namespace Animal
             Random rand = new Random();
             int positionX, positionY;
             int averageWeight;
-            bool isPredator;
+            bool isPredator, isFemale;
             for (int i = 0; i < numberOfFishes; i++)
             {
                 do
@@ -302,9 +338,15 @@ namespace Animal
                     positionY = rand.Next(1, cell.GetLength(0) - 1);
                 } while (cell[positionY, positionX].Type != 2);
                 averageWeight = rand.Next(1,100);
-                isPredator = (rand.Next(0, 2) == 0 ? true : false);
-                fishes.Add(new Fish(positionX, positionY, isPredator, averageWeight));
+                isPredator = (rand.Next(0, 100) > 30 ? true : false);
+                isFemale = (rand.Next(0, 2) == 0 ? true : false);
+                fishes.Add(new Fish(positionX, positionY, isPredator, averageWeight, isFemale));
                 cell[positionY, positionX].AddAnimal(fishes.Last());
+                //i++;
+                Console.WriteLine("Fish" + i + ":" + positionX + " " + positionY + " " + isPredator + " " + averageWeight + " " + isFemale);
+                //fishes.Add(new Fish(positionX, positionY, isPredator, averageWeight, !isFemale));
+                //cell[positionY, positionX].AddAnimal(fishes.Last());
+                //Console.WriteLine("Fish" + i + ":" + positionX + " " + positionY + " " + isPredator + " " + averageWeight + " " + !isFemale);
             }
             return fishes;
         }
@@ -314,7 +356,7 @@ namespace Animal
             Random rand = new Random();
             int positionX, positionY, averageWeight;
             int[] habitat = {};
-            bool isPredator, isSwimming, isFlying;
+            bool isPredator, isSwimming, isFlying, isFemale;
             for (int i = 0; i < numberOfBirds; i++)
             {
                 Array.Resize(ref habitat, 2);
@@ -330,10 +372,11 @@ namespace Animal
                     positionY = rand.Next(1, cell.GetLength(0) - 1);
                 } while (cell[positionY, positionX].Type != habitat[0]);
                 averageWeight = rand.Next(1, 100);
-                isPredator = (rand.Next(0, 2) == 0 ? true : false);
-                isSwimming = (rand.Next(0, 2) == 0 ? true : false);
-                isFlying = (rand.Next(0, 2) == 0 ? true : false);
-                birds.Add(new Bird(positionX, positionY, isPredator, isSwimming, isFlying, averageWeight, habitat));
+                isPredator = (rand.Next(0, 100) > 30 ? true : false);
+                isSwimming = (rand.Next(0, 100) > 40 ? true : false);
+                isFlying = (rand.Next(0, 100) > 80 ? true : false);
+                isFemale = (rand.Next(0, 2) == 0 ? true : false);
+                birds.Add(new Bird(positionX, positionY, isPredator, isSwimming, isFlying, averageWeight, habitat, isFemale));
                 cell[positionY, positionX].AddAnimal(birds.Last());
                 Console.WriteLine("Bird " + i + ": " + positionX + " " + positionY + " " + isPredator + " " + isSwimming + " " + isFlying + " " + averageWeight);
             }
@@ -345,7 +388,7 @@ namespace Animal
             Random rand = new Random();
             int positionX, positionY, averageWeight;
             int[] habitat = { };
-            bool isPredator, isSwimming;
+            bool isPredator, isSwimming, isFemale;
             for (int i = 0; i < numberOfMammals; i++)
             {
                 Array.Resize(ref habitat, 2);
@@ -361,9 +404,10 @@ namespace Animal
                     positionY = rand.Next(1, cell.GetLength(0) - 1);
                 } while (cell[positionY, positionX].Type != habitat[0]);
                 averageWeight = rand.Next(1, 100);
-                isPredator = (rand.Next(0, 2) == 0 ? true : false);
-                isSwimming = (rand.Next(0, 2) == 0 ? true : false);
-                mammals.Add(new Mammal(positionX, positionY, isPredator, isSwimming, averageWeight, habitat));
+                isPredator = (rand.Next(0, 100) > 30 ? true : false);
+                isSwimming = (rand.Next(0, 100) > 40 ? true : false);
+                isFemale = (rand.Next(0, 2) == 0 ? true : false);
+                mammals.Add(new Mammal(positionX, positionY, isPredator, isSwimming, averageWeight, habitat, isFemale));
                 cell[positionY, positionX].AddAnimal(birds.Last());
                 Console.WriteLine("Mammal " + i + ": " + positionX + " " + positionY + " " + isPredator + " " + isSwimming + " " + averageWeight);
             }

@@ -173,7 +173,7 @@ namespace Animal
 
         public void Draw()
         {
-            Console.WriteLine("Draw");
+
             Pen myPen = new Pen(SystemColors.Highlight, 2);
             g.DrawRectangle(myPen, new Rectangle(x0 - 5, y0 -5 , Enviroment.M * k + 10, Enviroment.N*k + 10));
             int typeOfCell;

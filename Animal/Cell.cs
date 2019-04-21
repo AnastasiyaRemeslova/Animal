@@ -34,5 +34,10 @@ namespace Animal
             animals.Remove(animal);
         }
 
+        public void AddFood(int food)
+        {
+            Food += food;
+        }
+
     }
 }

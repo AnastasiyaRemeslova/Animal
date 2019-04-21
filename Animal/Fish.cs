@@ -9,24 +9,31 @@ namespace Animal
     class Fish : Animal
     {
         private int positionX, positionY;
-        private bool isPredator;
+        private bool isPredator, isFemale;
         private int averageWeight;
         private int[] habitat = { 2 };
-
+        int speed;
         private int possibleStepsWithoutFood, currentStepsWithoutFood=0;
         private int requiredPortionOfFood, currentPortionOfFood=0;
         private int radiusOfSight;
+        private int progeny=0;
         Random rand = new Random();
-        public Fish(int positionX, int positionY, bool isPredator, int averageWeight)
+        public Fish(int positionX, int positionY, bool isPredator, int averageWeight, bool isFemale)
         {
             PositionX = positionX;
             PositionY = positionY;
             IsPredator = isPredator;
             AverageWeight = averageWeight;
+            Speed = rand.Next(2, 5);
 
             RequiredPortionOfFood = AverageWeight / 10;
             PossibleStepsWithoutFood = rand.Next(5, 20);
             RadiusOfSight = rand.Next(2, 5);
+            IsFemale = isFemale;
+            if (IsFemale)
+            {
+                Progeny = rand.Next(2, 4);
+            }
         }
 
         public override int PositionX
@@ -66,16 +73,46 @@ namespace Animal
             }
         }
 
-        public override int AverageWeight
+        public override bool IsFemale
         {
             protected set
             {
-                averageWeight = value;
+                isFemale = value;
             }
             get
             {
-                return (averageWeight);
+                return (isFemale);
             }
+        }
+
+        public override int Progeny
+        {
+            protected set
+            {
+                progeny = value;
+            }
+            get
+            {
+                return (progeny);
+            }
+        }
+
+        public override int Speed
+        {
+            protected set
+            {
+                speed = value;
+            }
+            get
+            {
+                return (speed);
+            }
+        }
+
+        public override int AverageWeight
+        {
+            protected set   {   averageWeight = value;  }
+            get {   return (averageWeight); }
         }
 
         public override int[] Habitat
@@ -167,7 +204,7 @@ namespace Animal
                     }
 
                 }
-                currentStepsWithoutFood++;
+                
                 currentPortionOfFood = 0;
                 if (currentStepsWithoutFood >= PossibleStepsWithoutFood)
                 {
@@ -222,6 +259,7 @@ namespace Animal
             Cell cell = Enviroment.GetCellByCoords(PositionY, PositionX);
             if (CheckCell(cellForMove))
             {
+                currentStepsWithoutFood++;
                 PositionX = cellForMove.PositionX;
                 PositionY = cellForMove.PositionY;
                 cell.RemoveAnimal(this);
@@ -231,15 +269,83 @@ namespace Animal
             return false;
         }
 
+        protected override bool CheckAnimalForPropagate(Animal animal)
+        {
+            if(animal is Fish)
+            {
+                Fish fish = (Fish)animal;
+
+               if (fish.IsFemale != IsFemale && Math.Abs(fish.AverageWeight - AverageWeight) < 10 && fish != this)
+                return true;
+            }
+            return false;
+        }
+
+        public override bool Propagate()
+        {
+            Cell cell = Enviroment.GetCellByCoords(PositionY, PositionX);
+            List<Animal> animals = cell.Animals;
+            int progeny = 0;
+            Random rand = new Random();
+            int averageWeight;
+            bool isFemale;
+            if (CheckCellForEat(cell) && cell.Animals.Count<10)
+            {
+                foreach (Animal animal in animals)
+                {
+                    if (CheckAnimalForPropagate(animal))
+                    {
+                        if (animal.IsFemale)
+                        {
+                            progeny = animal.Progeny;
+                        }
+                        if(this.isFemale)
+                        {
+                            progeny = Progeny;
+                        }
+                        for (int i = 0; i < progeny; i++)
+                        {
+                            if (animal.AverageWeight >= AverageWeight)
+                            {
+                                averageWeight = rand.Next(AverageWeight, animal.AverageWeight);
+                            }
+                            else
+                            {
+                                averageWeight = rand.Next(animal.AverageWeight, AverageWeight);
+                            }
+                                isFemale = (rand.Next(0, 2) == 0 ? true : false);
+                            Fish child = new Fish(PositionX, PositionY, IsPredator, averageWeight, isFemale);
+                                cell.AddAnimal(child);
+                            Enviroment.AddAnimal(child);
+                        }
+                        return true;
+                    }
+                }
+                
+            }
+            return false;
+        }
+
         public override void Live()
         {
-            bool isMoved = false;
+            Cell cell;
+            bool isAte = false, isPropagated = false;
+            int i = Speed;
+            while (!isAte && i > 0)
+            {
+                cell = FindCellForEat();
+                Move(cell);
+                isAte = Eat();
+                i--;
+            }
 
-            Cell cell = FindCellForEat();
-            isMoved = Move(cell);
-            Eat();
-
-
+            while (!isPropagated && i>0 && isAte)
+            {
+                cell = FindCellForPropagate();
+                Move(cell);
+                isPropagated = Propagate();
+                i--;
+            }
         }
     }
 }

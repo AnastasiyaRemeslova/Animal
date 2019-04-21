@@ -9,33 +9,43 @@ namespace Animal
     class Mammal : Animal
     {
         private int positionX, positionY;
-        private bool isPredator, isSwimming;
+        private bool isPredator, isSwimming, isFemale;
         private int averageWeight;
+        private int speed;
+
         private int possibleStepsWithoutFood, currentStepsWithoutFood = 0;
         private int requiredPortionOfFood, currentPortionOfFood = 0;
         private int maxDepth;
         private int[] habitat = { };
         private int radiusOfSight;
+        private int progeny;
+
         Random rand = new Random();
 
-        public Mammal(int positionX, int positionY, bool isPredator, bool isSwimming, int averageWeight, int[] habitat)
+        public Mammal(int positionX, int positionY, bool isPredator, bool isSwimming, int averageWeight, int[] habitat, bool isFemale)
         {
             PositionX = positionX;
             PositionY = positionY;
             IsPredator = isPredator;
             IsSwimming = isSwimming;
             AverageWeight = averageWeight;
+            Speed = rand.Next(2, 5);
 
             if (isSwimming)
             {
-                Array.Resize(ref habitat, 3);
-                habitat[2] = 2;
+                Array.Resize(ref habitat, habitat.Length + 1);
+                habitat[habitat.Length - 1] = 2;
                 MaxDepth = rand.Next(1, 30);
             }
             RequiredPortionOfFood = AverageWeight / 10;
             PossibleStepsWithoutFood = rand.Next(5, 20);
             Habitat = habitat;
             RadiusOfSight = rand.Next(1, 5);
+            IsFemale = isFemale;
+            if (IsFemale)
+            {
+                Progeny = rand.Next(1, 3);
+            }
         }
 
         public override int PositionX
@@ -83,6 +93,42 @@ namespace Animal
             get
             {
                 return (isSwimming);
+            }
+        }
+
+        public override bool IsFemale
+        {
+            protected set
+            {
+                isFemale = value;
+            }
+            get
+            {
+                return (isFemale);
+            }
+        }
+
+        public override int Progeny
+        {
+            protected set
+            {
+                progeny = value;
+            }
+            get
+            {
+                return (progeny);
+            }
+        }
+
+        public override int Speed
+        {
+            protected set
+            {
+                speed = value;
+            }
+            get
+            {
+                return (speed);
             }
         }
 
@@ -225,7 +271,7 @@ namespace Animal
 
                 }
             }
-            currentStepsWithoutFood++;
+            
             currentPortionOfFood = 0;
             if (currentStepsWithoutFood >= PossibleStepsWithoutFood)
             {
@@ -254,6 +300,7 @@ namespace Animal
             Cell cell = Enviroment.GetCellByCoords(PositionY, PositionX);
             if (CheckCell(cellForMove))
             {
+                currentStepsWithoutFood++;
                 PositionX = cellForMove.PositionX;
                 PositionY = cellForMove.PositionY;
                 cell.RemoveAnimal(this);
@@ -278,11 +325,95 @@ namespace Animal
             return false;
         }
 
+        protected override bool CheckAnimalForPropagate(Animal animal)
+        {
+            if (animal is Mammal)
+            {
+                Mammal mammal = (Mammal)animal;
+                int k = 0;
+                for (int i = 0; i < mammal.Habitat.Length; i++)
+                {
+                    for (int j = 0; j < Habitat.Length; j++)
+                    {
+                        if (mammal.Habitat[i] == Habitat[j])
+                        {
+                            k++;
+                        }
+                    }
+                }
+                if (k > 0 && mammal.IsFemale != IsFemale && mammal.IsPredator == IsPredator && mammal.IsSwimming == IsSwimming && Math.Abs(mammal.AverageWeight - AverageWeight) < 50 && mammal != this)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override bool Propagate()
+        {
+            Cell cell = Enviroment.GetCellByCoords(PositionY, PositionX);
+            List<Animal> animals = cell.Animals;
+            int progeny = 0;
+            Random rand = new Random();
+            int averageWeight;
+            bool isFemale;
+            if (CheckCellForEat(cell) && cell.Animals.Count < 10)
+            {
+                foreach (Animal animal in animals)
+                {
+                    if (CheckAnimalForPropagate(animal))
+                    {
+                        if (animal.IsFemale)
+                        {
+                            progeny = animal.Progeny;
+                        }
+                        if (this.isFemale)
+                        {
+                            progeny = Progeny;
+                        }
+                        for (int i = 0; i < progeny; i++)
+                        {
+                            if (animal.AverageWeight >= AverageWeight)
+                            {
+                                averageWeight = rand.Next(AverageWeight, animal.AverageWeight);
+                            }
+                            else
+                            {
+                                averageWeight = rand.Next(animal.AverageWeight, AverageWeight);
+                            }
+                            isFemale = (rand.Next(0, 2) == 0 ? true : false);
+                            Mammal child = new Mammal(PositionX, PositionY, IsPredator, IsSwimming, averageWeight, Habitat, isFemale);
+                            cell.AddAnimal(child);
+                            Enviroment.AddAnimal(child);
+                        }
+                        return true;
+                    }
+                }
+
+            }
+            return false;
+        }
+
         public override void Live()
         {
-            Cell cell = FindCellForEat();
-            Move(cell);
-            Eat();
+            Cell cell;
+            bool isAte = false, isPropagated = false;
+            int i = Speed;
+            while (!isAte && i > 0)
+            {
+                cell = FindCellForEat();
+                Move(cell);
+                isAte = Eat();
+                i--;
+            }
+
+            while (!isPropagated && i > 0 && isAte)
+            {
+                cell = FindCellForPropagate();
+                Move(cell);
+                isPropagated = Propagate();
+                i--;
+            }
         }
     }
 }
