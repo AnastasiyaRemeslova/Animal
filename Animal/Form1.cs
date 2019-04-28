@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace Animal
 {
-    public partial class Form1 : Form
+    public partial class Animals : Form
     {
 
         private System.Windows.Forms.TrackBar trackBar1, trackBar2, trackBar3, trackBar4, trackBar5;
@@ -20,6 +20,12 @@ namespace Animal
         Graphics formGraphics, g;
         Enviroment enviroment;
         private int width, height, x0, y0, n ,m, numberOfFishes, numberOfBirds, numberOfMammals, k;
+
+        private void Animals_Load(object sender, EventArgs e)
+        {
+
+        }
+
         Thread mythread;
         Font aFont = new Font("Tahoma", 10, FontStyle.Regular);
 
@@ -35,14 +41,14 @@ namespace Animal
         }
 
 
-        public Form1()
+        public Animals()
         {
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.DoubleBuffered = true;
             width = 700;
             height = 700;
-            x0 = 255;
+            x0 = 265;
             y0 = 25;
             InitializeComponent();
             g = this.CreateGraphics();
@@ -98,7 +104,7 @@ namespace Animal
             this.trackBar3.Scroll += new EventHandler(trackBar3_Scroll);
 
             trackBar3.Minimum = 5;
-            trackBar3.Maximum = 50;
+            trackBar3.Maximum = 100;
             trackBar3.TickFrequency = 10;
             trackBar3.LargeChange = 5;
             trackBar3.SmallChange = 1;
@@ -117,7 +123,7 @@ namespace Animal
             this.trackBar4.Scroll += new EventHandler(trackBar4_Scroll);
 
             trackBar4.Minimum = 5;
-            trackBar4.Maximum = 50;
+            trackBar4.Maximum = 100;
             trackBar4.TickFrequency = 10;
             trackBar4.LargeChange = 5;
             trackBar4.SmallChange = 1;
@@ -136,7 +142,7 @@ namespace Animal
             this.trackBar5.Scroll += new EventHandler(trackBar5_Scroll);
 
             trackBar5.Minimum = 5;
-            trackBar5.Maximum = 50;
+            trackBar5.Maximum = 100;
             trackBar5.TickFrequency = 10;
             trackBar5.LargeChange = 5;
             trackBar5.SmallChange = 1;
@@ -204,11 +210,27 @@ namespace Animal
                 }
 
             List<Animal> fishes = Enviroment.GetAnimals(0);
-
-            String s = "" + Enviroment.NumberOfFishes;
             myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
-            g.FillRectangle(myBrush, new Rectangle(10, 400, 20, 420));
+            g.FillRectangle(myBrush, new Rectangle(10, 400, 150, 20));
+            String s = "Рыбы: " + Enviroment.NumberOfFishes ;
+            
             g.DrawString(s, aFont, Brushes.Black, 10, 400);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 50, 50));
+            g.FillEllipse(myBrush, 10, 420, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 0, 150));
+            g.FillEllipse(myBrush, 10, 440, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
+            g.FillRectangle(myBrush, new Rectangle(40, 420, 150, 40));
+            s = "Хищники:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 420);
+            s = "Травоядные:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 440);
+
+            s = ""+ fishes.FindAll(x => x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 420);
+            s = "" + fishes.FindAll(x => !x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 440);
+
             for (int i = 0; i < Enviroment.NumberOfFishes; i++)
             {
                 Fish fish = (Fish)fishes.ElementAt(i);
@@ -225,18 +247,38 @@ namespace Animal
             }
 
             List<Animal> birds = Enviroment.GetAnimals(1);
-
-            String s2 = "" + Enviroment.NumberOfBirds;
+            /*
+            String s2 = "Птицы: " + Enviroment.NumberOfBirds + " из них хищников: " + birds.FindAll(x => x.IsPredator).Count;
             myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
-            g.FillRectangle(myBrush, new Rectangle(10, 420, 20, 450));
-            g.DrawString(s2, aFont, Brushes.Black, 10, 420);
+            g.FillRectangle(myBrush, new Rectangle(10, 420, 270, 450));
+            g.DrawString(s2, aFont, Brushes.Black, 10, 420);*/
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
+            g.FillRectangle(myBrush, new Rectangle(10, 470, 150, 20));
+            s = "Птицы: " + Enviroment.NumberOfBirds;
+
+            g.DrawString(s, aFont, Brushes.Black, 10, 470);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(175, 75, 0));
+            g.FillEllipse(myBrush, 10, 490, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(255, 105, 0));
+            g.FillEllipse(myBrush, 10, 510, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
+            g.FillRectangle(myBrush, new Rectangle(40, 490, 150, 40));
+            s = "Хищники:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 490);
+            s = "Травоядные:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 510);
+
+            s = "" + birds.FindAll(x => x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 490);
+            s = "" + birds.FindAll(x => !x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 510);
             for (int i = 0; i < Enviroment.NumberOfBirds; i++)
             {
                 Bird bird = (Bird)birds.ElementAt(i);
                 int x = bird.PositionX, y = bird.PositionY;
                 if (bird.IsPredator)
                 {
-                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(205, 75, 0));
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(175, 75, 0));
                 }
                 else
                 {
@@ -248,18 +290,38 @@ namespace Animal
             }
 
             List<Animal> mammals = Enviroment.GetAnimals(2);
-
-            String s3 = "" + Enviroment.NumberOfMammals;
+            /*
+            String s3 = "Млекопитающие: " + Enviroment.NumberOfMammals + " из них хищников: " + mammals.FindAll(x => x.IsPredator).Count;
             myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
-            g.FillRectangle(myBrush, new Rectangle(10, 440, 20, 460));
-            g.DrawString(s3, aFont, Brushes.Black, 10, 440);
+            g.FillRectangle(myBrush, new Rectangle(10, 440, 270, 460));
+            g.DrawString(s3, aFont, Brushes.Black, 10, 440);*/
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
+            g.FillRectangle(myBrush, new Rectangle(10, 540, 150, 20));
+            s = "Млекопитающие: " + Enviroment.NumberOfMammals;
+
+            g.DrawString(s, aFont, Brushes.Black, 10, 540);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(150, 0, 0));
+            g.FillEllipse(myBrush, 10, 560, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(255, 0, 0));
+            g.FillEllipse(myBrush, 10, 580, 15, 15);
+            myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.WhiteSmoke);
+            g.FillRectangle(myBrush, new Rectangle(40, 560, 150, 40));
+            s = "Хищники:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 560);
+            s = "Травоядные:";
+            g.DrawString(s, aFont, Brushes.Black, 40, 580);
+
+            s = "" + mammals.FindAll(x => x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 560);
+            s = "" + mammals.FindAll(x => !x.IsPredator).Count;
+            g.DrawString(s, aFont, Brushes.Black, 150, 580);
             for (int i = 0; i < Enviroment.NumberOfMammals; i++)
             {
                 Mammal mammal = (Mammal)mammals.ElementAt(i);
                 int x = mammal.PositionX, y = mammal.PositionY;
                 if (mammal.IsPredator)
                 {
-                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(190, 0, 0));
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(150, 0, 0));
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 ﻿namespace Animal
 {
-    partial class Form1
+    partial class Animals
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -42,7 +42,7 @@
             this.create.UseVisualStyleBackColor = false;
             this.create.Click += new System.EventHandler(this.create_Click);
             // 
-            // Form1
+            // Animals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -50,8 +50,9 @@
             this.ClientSize = new System.Drawing.Size(984, 761);
             this.Controls.Add(this.create);
             this.Location = new System.Drawing.Point(-280, -280);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Animals";
+            this.Text = "Animals";
+            this.Load += new System.EventHandler(this.Animals_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.ResumeLayout(false);
 

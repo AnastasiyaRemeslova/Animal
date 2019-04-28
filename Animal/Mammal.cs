@@ -357,7 +357,7 @@ namespace Animal
             Random rand = new Random();
             int averageWeight;
             bool isFemale;
-            if (CheckCellForEat(cell) && cell.Animals.Count < 10)
+            if (CheckCellForEat(cell) && cell.Animals.Count < 6)
             {
                 foreach (Animal animal in animals)
                 {
