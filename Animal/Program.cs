@@ -16,22 +16,9 @@ namespace Animal
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Animals());           // Enviroment.Process();
+            Application.Run(new Animals());
+           // Enviroment.Process();
 
-            Random rand = new Random();
-            Regex pat = new Regex("^(([0]{1})|([0][,][0-9]+)|([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*[,]{1}[0-9]+))+$");
-            int n, m, numberOfBirds;
-            try
-            {
-                
-
-                Console.ReadLine();
-            }
-            catch (AnimalException ex)
-            {
-                Console.WriteLine("Ошибка: "+ ex.Message);
-                Console.ReadLine();
-            }
         }
 
        

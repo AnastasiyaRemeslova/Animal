@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Animal.Enviroment">
+    <Position X="5" Y="1.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAQAEAAAABAEAABgAAAAABAABAABQAEoAEABoDEAE=</HashCode>
+      <FileName>Enviroment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Fish">
+    <Position X="15.25" Y="6" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUAEAOAAEKBAAAEgAAEFYBABAAgAAQAIAAAASBEDAAg=</HashCode>
+      <FileName>Fish.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Animal">
+    <Position X="18" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BcAAAAAAEKAAAAEgAAEEABABAAAAAAAIAAAACAADAAA=</HashCode>
+      <FileName>Animal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Mammal">
+    <Position X="18" Y="6" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUAEAOAAEKBAAAEgAgEFYDIBAAggAQAIAAAASBEDAAg=</HashCode>
+      <FileName>Mammal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Bird">
+    <Position X="20.75" Y="6" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AUAEAOAAEKBAAAEgAgEFYDIBQAggAUAIAAAASBEDAAg=</HashCode>
+      <FileName>Bird.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Cell">
+    <Position X="10.5" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAQAAAAEAAAAAAAAYAEAgAAEAA=</HashCode>
+      <FileName>Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.WaterCell">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAIAAAAAABAAAgAQAAIgAAAAI=</HashCode>
+      <FileName>WaterCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.LandCell">
+    <Position X="9.5" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAIAAAAAABAAAAAQAAAgAAAAI=</HashCode>
+      <FileName>LandCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.ForestCell">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAIAAAAAABAAAAAQAAAgAAAAI=</HashCode>
+      <FileName>ForestCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.BorderCell">
+    <Position X="13" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAIAAAAAABAAAAAQAAAgAAAAI=</HashCode>
+      <FileName>BorderCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Program">
+    <Position X="5.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animal.Animals">
+    <Position X="15.25" Y="1" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BCIAAIkEGTACAgwAQACAAABCIABwAAAIkgBAAgIAAAA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
